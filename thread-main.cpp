@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -56,6 +57,24 @@ int main (void)
     int matrixA[Arows][Acols];
     getData(Arows, Acols, (int *)matrixA);
 
+    // get the dimensions for B
+    getDimensions(&Brows, &Bcols);
+
+    // if the cols of A don't match rows of B, can't do matrix multiplication
+    // so error out
+    if (Acols != Brows)
+    {
+        printf("ERROR: Cols of A do not match Rows of B.\nExiting...\n");
+        exit(1);
+    }
+
+    // get the data for B
+    int matrixB[Brows][Bcols];
+    getData(Brows, Bcols, (int *)matrixB);
+
+
+
+
     // print A
     for (i = 0; i < Arows; i++)
     {
@@ -66,6 +85,14 @@ int main (void)
         printf("\n");
     }
 
-    printf("Inputs %d %d\n", Arows, Acols);
+    // print B
+    for (i = 0; i < Brows; i++)
+    {
+        for (j = 0; j < Bcols; j++)
+        {
+            printf("%d ", matrixB[i][j]);
+        }
+        printf("\n");
+    }
 
 }
