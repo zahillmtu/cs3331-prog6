@@ -1,6 +1,6 @@
 CC       = c++
 FLAGS    = 
-CFLAGS   = -g -O2
+CFLAGS   = -g -O2 -Wno-deprecated
 DFLAGS   = -DPACKAGE=\"threadsystem\" -DVERSION=\"1.0\" -DPTHREAD=1 -DUNIX_MSG_Q=1 -DSTDC_HEADERS=1
 IFLAGS   = -I/local/eit-linux/apps/ThreadMentor/include
 TMLIB    = /local/eit-linux/apps/ThreadMentor/Visual/libthreadclass.a

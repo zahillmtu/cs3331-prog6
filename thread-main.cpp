@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <iostream>
+
+#include "thread.h"
+#include "ThreadClass.h"
+
+SynOneToOneChannel* aChannel;
 
 void getDimensions(int* x, int* y)
 {
@@ -50,6 +56,7 @@ int main (void)
     int i;
     int j;
 
+
     // get the dimensions for A
     getDimensions(&Arows, &Acols);
 
@@ -72,8 +79,19 @@ int main (void)
     int matrixB[Brows][Bcols];
     getData(Brows, Bcols, (int *)matrixB);
 
+    int testNum = 60;
 
+    aChannel = new SynOneToOneChannel("Channel",0,0);
 
+    // attempt to make a channel for the processes to talk
+    OuterProcessor* testThread0 = new OuterProcessor(1);
+    OuterProcessor* testThread1 = new OuterProcessor(2);
+
+    testThread0->Begin();
+    testThread1->Begin();
+
+    printf("trying to send to channel\n");
+    testThread1->channel->Send(&testNum, sizeof(int));
 
     // print A
     for (i = 0; i < Arows; i++)
@@ -94,5 +112,8 @@ int main (void)
         }
         printf("\n");
     }
+
+    testThread0->Join();
+    testThread1->Join();
 
 }
