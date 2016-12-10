@@ -1,3 +1,12 @@
+// -----------------------------------------------------------
+// NAME : Zachary Hill                         User ID: zahill
+// DUE DATE : 12/09/2016
+// PROGRAM ASSIGNMENT #6
+// FILE NAME : thread-main.cpp
+// PROGRAM PURPOSE :
+//     Program uses channels to communicate between threads
+//     in order to compute matrix multiplication.
+// -----------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -22,6 +31,28 @@ int Bcols;
 int Crows;
 int Ccols;
 
+// -----------------------------------------------------------
+// FUNCTION printWrap :
+//    A wrapper method for printing using write()
+// PARAMETER USAGE :
+//    buf - A character array of size 100 containing
+//          the print statement
+// FUNCTION CALLED :
+//    write()
+// -----------------------------------------------------------
+void printWrap(char buf[100]) {
+    write(1, buf, strlen(buf));
+}
+
+// -----------------------------------------------------------
+// FUNCTION printWrap :
+//    A wrapper method for printing using write()
+// PARAMETER USAGE :
+//    buf - A character array of size 100 containing
+//          the print statement
+// FUNCTION CALLED :
+//    write()
+// -----------------------------------------------------------
 void getDimensions(int* x, int* y)
 {
    int status = 0;
@@ -39,6 +70,15 @@ void getDimensions(int* x, int* y)
    return;
 }
 
+// -----------------------------------------------------------
+// FUNCTION printWrap :
+//    A wrapper method for printing using write()
+// PARAMETER USAGE :
+//    buf - A character array of size 100 containing
+//          the print statement
+// FUNCTION CALLED :
+//    write()
+// -----------------------------------------------------------
 void getData(int rows, int cols, int mat)
 {
     int status = 0;
@@ -66,11 +106,24 @@ void getData(int rows, int cols, int mat)
     return;
 }
 
+// -----------------------------------------------------------
+// FUNCTION main :
+//    Creates and runs threads, creates channels, does intial
+//    setup and input gathering.
+// PARAMETER USAGE :
+//    pulls data in from the cmdline
+// FUNCTION CALLED :
+//    getDimensions
+//    getData
+//    printWrap
+// -----------------------------------------------------------
 int main (void)
 {
 
     int i;
     int j;
+    char buf[100];
+
 
     // get the dimensions for A
     getDimensions(&Arows, &Acols);
@@ -98,25 +151,6 @@ int main (void)
 
     printf("Crows: %d Ccols: %d\n", Crows, Ccols);
 
-    // print A
-    for (i = 0; i < Arows; i++)
-    {
-        for (j = 0; j < Acols; j++)
-        {
-            printf("%d ", matrixA[i][j]);
-        }
-        printf("\n");
-    }
-
-    // print B
-    for (i = 0; i < Brows; i++)
-    {
-        for (j = 0; j < Bcols; j++)
-        {
-            printf("%d ", matrixB[i][j]);
-        }
-        printf("\n");
-    }
 
     // create all the channels
     // the 2D array will have size Arows by Bcols based on matrix mult
@@ -180,15 +214,49 @@ int main (void)
         }
     }
 
+    sprintf(buf, "*** From main ***\n");
+    printWrap(buf);
+
+    // print A
+    sprintf(buf, "Matrix A: %2d rows and %2d columns\n", Arows, Acols);
+    printWrap(buf);
+    for (i = 0; i < Arows; i++)
+    {
+        for (j = 0; j < Acols; j++)
+        {
+            sprintf(buf,"%4d ", matrixA[i][j]);
+            printWrap(buf);
+        }
+        sprintf(buf, "\n");
+        printWrap(buf);
+    }
+
+    // print B
+    sprintf(buf, "Matrix B: %2d rows and %2d columns\n", Brows, Bcols);
+    printWrap(buf);
+    for (i = 0; i < Brows; i++)
+    {
+        for (j = 0; j < Bcols; j++)
+        {
+            sprintf(buf, "%4d ", matrixB[i][j]);
+            printWrap(buf);
+        }
+        sprintf(buf, "\n");
+        printWrap(buf);
+    }
+
     // print C
-    printf("printing C...\n");
+    sprintf(buf, "Matrix C = A*B: %2d rows and %2d columns\n", Crows, Ccols);
+    printWrap(buf);
     for (i = 1; i < Crows + 1; i++)
     {
         for (j = 1; j < Ccols + 1; j++)
         {
-            printf("%d ", matrixC[i][j]);
+            sprintf(buf, "%4d ", matrixC[i][j]);
+            printWrap(buf);
         }
-        printf("\n");
+        sprintf(buf, "\n");
+        printWrap(buf);
     }
 
 }

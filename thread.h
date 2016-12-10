@@ -1,3 +1,11 @@
+// -----------------------------------------------------------
+// NAME : Zachary Hill                         User ID: zahill
+// DUE DATE : 12/09/2016
+// PROGRAM ASSIGNMENT #6
+// FILE NAME : thread.h
+// PROGRAM PURPOSE :
+//    Contains thread class definitions
+// -----------------------------------------------------------
 
 #include "ThreadClass.h"
 
@@ -18,6 +26,7 @@ class OuterProcessor : public Thread
         int k;
         char buf[100];
         void ThreadFunc();
+        void printWrap(char*);
 };
 
 class InnerProcessor : public Thread
@@ -37,4 +46,5 @@ class InnerProcessor : public Thread
         int left;
         char buf[100];
         void ThreadFunc();
+        void printWrap(char*);
 };
