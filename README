@@ -1,2 +1,74 @@
 # cs3331-prog6
 Matrix Multiplication using Channels 
+// -----------------------------------------------------------
+// NAME : Zachary Hill                         User ID: zahill
+// DUE DATE : 12/09/2016
+// PROGRAM ASSIGNMENT #6
+// FILE NAME : thread.cpp
+// PROGRAM PURPOSE :
+//     Holds class implementations for the OuterProcessor
+//     and InnerProcessor classes
+// -----------------------------------------------------------
+
+Logic of the program:
+    This program computes matrix multiplication by using threads and channels.
+    Outer proccessing threads pass the values of the input matricies to the 
+    inner threads which do the calculation. For each interation of the inner
+    thread, it muliplies the values it received, adds it to it's total, and 
+    passes the values on to the threads below and right of it.
+
+Why does the program work?
+    As the data is passed through each processor, it gets multiplied and
+    added together which is the algorithm for Matrix multiplication. Passing
+    the values through the 2D array of threads allows each piece Pij to 
+    receive all row and column elements from A and B neccesary to calculate.
+
+rightChannels - used to pass data through to the right neighbor of a thread
+downChannels  - used to pass data through to the below neighbor of a thread
+matrixA       - holds the values of matrix A
+matrixB       - holds the values of matrix B
+matrixC       - holds the final results
+
+Question 1:
+    In order to calculate Pij, it is neccesary to sum the products of each
+    pair in row i and col j. The program allows this calculation because it
+    receives the pair (i,j), computes the product, adds it to the sum, and
+    then passes the values i,j onto the next Pij to add it to it's sum.
+
+Question 2:
+    Synchronous channels block while they wait for a rendevous. This is needed
+    because the mailbox needs to be read and the calculation needs to be done
+    before Pij can receive new information. With Asynchronous channels it is
+    possible that another process could take the information it isn't 
+    supposed to have.
+
+Question 3:
+      P   P   P 
+      P   P   P
+      P   P   P 
+
+      EOD P   P
+      P   P   P
+      P   P   P
+
+      EOD EOD P
+      EOD P   P
+      P   P   P
+
+      EOD EOD EOD
+      EOD EOD P
+      EOD P   P
+
+      EOD EOD EOD
+      EOD EOD EOD
+      EOD EOD P
+
+      EOD EOD EOD
+      EOD EOD EOD
+      EOD EOD EOD
+
+Question 4:
+    Yes, a thread must receive it's data in pairs of i,j which are used in
+    the calculation. If either is -1, it means that there are no more pairs
+    i,j to be used in a calculation.
+
